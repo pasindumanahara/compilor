@@ -1,0 +1,46 @@
+file structure
+    compiler_project/
+│
+├── src/
+│   ├── lexer.c
+│   ├── parser.c
+│   ├── ast.c
+│   ├── semantic.c
+│   ├── codegen.c
+│   ├── symbol_table.c
+│   ├── main.c
+│
+├── include/
+│   ├── lexer.h
+│   ├── parser.h
+│   ├── ast.h
+│   ├── semantic.h
+│   ├── codegen.h
+│   ├── symbol_table.h
+│   ├── common.h
+│
+├── examples/
+│   ├── test1.lang
+│   ├── test2.lang
+│
+├── build/
+│   ├── output.s
+│   ├── program
+│
+├── docs/
+│   ├── design_notes.txt
+│   ├── grammar_spec.txt
+│   ├── tokens_list.txt
+│
+├── Makefile
+└── README.md
+
+
+resources
+    https://norasandler.com/2017/11/29/Write-a-Compiler.html
+
+    https://craftinginterpreters.com/
+
+    https://www.geeksforgeeks.org/phases-of-a-compiler/
+
+    https://www.tutorialspoint.com/compiler_design/index.htm
