@@ -11,4 +11,9 @@ typedef struct
 void initLexer(const char *src);
 Token getNextToken();
 
+int isalpha(char *src);
+int isspace(char *src);
+int isdigit(char *src);
+
+
 #endif

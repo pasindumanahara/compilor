@@ -8,10 +8,23 @@ void initLexer(const char *src) {
     pos = 0;
 }
 
+int isalpha(char *src){
+    return ((src >= 'A' && src <= 'Z') || (src >= 'a' && src <= 'z'));
+}
+
+int isdigit(char *src){
+    return ((src >= '0' && src <= '9'));
+}
+
+int isspace(char *src){
+    return (src == ' ' || src == '\f' || src == '\n' || src == '\r' || src == '\t' || src == '\v');
+}
+
 Token getNextToken() {
     Token token = {TOKEN_END, ""};
 
-    while (isspace(source[pos])) pos++;
+    while (isspace(source[pos])) 
+        pos++;
 
     if (isdigit(source[pos])) {
         int start = pos;
