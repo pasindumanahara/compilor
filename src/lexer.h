@@ -1,3 +1,7 @@
+/*TODO: Define functions here
+and lexer.c file
+CRITICAL ERROR*/
+
 #ifndef LEXER_H
 #define LECER_H
 #include "common.h"
