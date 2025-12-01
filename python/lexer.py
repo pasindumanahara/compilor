@@ -3,6 +3,7 @@
 import sys
 import string
 
+
 # Ensure file is provided
 if len(sys.argv) < 2:
     print("Usage: python lexer.py <source_file>")
@@ -56,6 +57,9 @@ while i < len(content):
     tokens.append(("UNKNOWN", ch))
     i += 1
 
+print(tokens)
+'''
 # Print tokens
 for t in tokens:
     print(t)
+'''
