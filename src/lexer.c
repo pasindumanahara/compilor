@@ -19,6 +19,9 @@ int isdigit(char *src){
 int isspace(char *src){
     return (src == ' ' || src == '\f' || src == '\n' || src == '\r' || src == '\t' || src == '\v');
 }
+int islnum(char *src){
+    return 1;
+}
 
 Token getNextToken() {
     Token token = {TOKEN_END, ""};
