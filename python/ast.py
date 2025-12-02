@@ -1,4 +1,6 @@
-from parser import Parser, ASTNode, BinOp, Num, Var, Assign, Block, Return
+# TODO:: parser is working fine, has a error in ast output when take 
+#        in to the inter preter part
+from parser import Parser, ASTNode, BinOp, Num, Var, Assign, Block, Return,FuncDef
 from lexer import Lexer
 
 class Interpreter:
@@ -43,8 +45,7 @@ class Interpreter:
         else:
             raise Exception(f"Unknown node type: {type(node)}")
 
-    def interpret(self):
-        # Look for main function block
+    def interpret(self):        
         for stmt in self.tree.statements:
             if isinstance(stmt, FuncDef) and stmt.name == "main":
                 return self.visit(stmt.block)

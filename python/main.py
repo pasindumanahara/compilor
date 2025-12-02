@@ -1,6 +1,7 @@
 import sys
 from lexer import Lexer
 from parser import Parser
+from ast import Interpreter
 
 # Optionally read from file:
 
@@ -13,12 +14,19 @@ with open(source_file, 'r') as f:
     content = f.read()
 
 
-# Initialize lexer and parser
+# lexer phase
 lexer = Lexer(content)
+
+#parser phase
 parser = Parser(lexer)
 
-# Parse and get AST
+# paser ast output
 ast = parser.parse()
-
-# Print AST
 print(ast)
+'''
+# interpreter calling 
+interpreter = Interpreter(parser)
+
+result = interpreter.interpret()
+print("Program returned:", result)
+'''
