@@ -7,7 +7,6 @@ class BinOp(ASTNode):
         self.left = left
         self.op = op
         self.right = right
-
     def __repr__(self):
         return f"({self.left} {self.op.type} {self.right})"
 
@@ -15,7 +14,6 @@ class Num(ASTNode):
     def __init__(self, token):
         self.token = token
         self.value = token.value
-
     def __repr__(self):
         return f"Num({self.value})"
 
@@ -23,7 +21,6 @@ class Var(ASTNode):
     def __init__(self, token):
         self.token = token
         self.name = token.value
-
     def __repr__(self):
         return f"Var({self.name})"
 
@@ -32,31 +29,36 @@ class Assign(ASTNode):
         self.left = left  
         self.op = op     
         self.right = right
-
     def __repr__(self):
         return f"({self.left} {self.op.type} {self.right})"
 
 class Block(ASTNode):
     def __init__(self, statements):
         self.statements = statements
-
     def __repr__(self):
         return "Block([" + ", ".join(map(str, self.statements)) + "])"
 
 class Return(ASTNode):
     def __init__(self, expr):
         self.expr = expr
-
     def __repr__(self):
         return f"Return({self.expr})"
+    
 class FuncDef(ASTNode):
     def __init__(self, return_type, name, body):
         self.return_type = return_type  
         self.name = name                
-        self.body = body                
-
+        self.body = body 
     def __repr__(self):
         return f"FuncDef({self.return_type.value} {self.name.value}, {self.body})"
+class FuncDef(ASTNode):
+    def __init__(self, return_type, name, body):
+        self.return_type = return_type  
+        self.name = name               
+        self.body = body               
+    def __repr__(self):
+        return f"FuncDef({self.return_type} {self.name}, {self.body})"
+
 class Parser:
     def __init__(self, lexer):
         self.lexer = lexer

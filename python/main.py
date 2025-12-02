@@ -5,7 +5,6 @@ from parser import Parser
 # Optionally read from file:
 
 if len(sys.argv) < 2:
-    print("Usage: python main.py <source_file>")
     sys.exit(1)
 
 source_file = sys.argv[1]
