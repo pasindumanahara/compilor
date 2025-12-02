@@ -1,5 +1,5 @@
 # for testing arg 
-import sys
+#import sys
 
 class Token:
     def __init__(self,type,value,line):
@@ -282,55 +282,8 @@ class Lexer:
 
         return None
                 
-                
-
-            
-
-    
-
-# example for using this functions and the class to check each token 
-'''
-def get_next_token(self):
-    while self.current_char is not None:
-
-        if self.current_char.isspace():
-            self.skip_whitespace()
-            continue
-
-        if self.current_char.isalpha() or self.current_char == '_':
-            return self._id()
-
-        if self.current_char.isdigit():
-            return self.number()
-
-        # handle comments
-        if self.current_char == '/':
-            if self.peek() == '/':
-                self.skip_line_comment()
-                continue
-            if self.peek() == '*':
-                self.skip_block_comment()
-                continue
-            return Token("DIV", '/', self.line)
-
-        # handle operators (==, !=, <=, etc.)
-        token = self.match_operator()
-        if token:
-            return token
-
-        # symbols ((), {}, etc.)
-        if self.current_char in SINGLE_CHAR_TOKENS:
-            ch = self.current_char
-            self.advance()
-            return Token(SINGLE_CHAR_TOKENS[ch], ch, self.line)
-
-        # unknown character → error
-        raise Exception(f"Unexpected char {self.current_char!r} at line {self.line}")
-
-    return Token("EOF", None, self.line)
 
 '''
-
 # testing 
 # Test the Lexer
 if __name__ == "__main__":
@@ -351,8 +304,10 @@ if __name__ == "__main__":
     with open(source_file, "r") as f:
         content = f.read()
     
-    lexer = Lexer(code)
+    lexer = Lexer(content)
     token = lexer.get_next_token()
     while token.type != "EOF":
         print(token)
         token = lexer.get_next_token()
+
+'''
