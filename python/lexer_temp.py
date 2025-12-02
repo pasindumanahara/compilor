@@ -75,6 +75,19 @@ class Lexer:
             return self.text[next_pos]
         return None
 
+    def identifier(self):        
+        result = ""
+        if not (self.current_char.isalpha() or self.current_char == '_'):
+            raise Exception(f"Invalid identifier start '{self.current_char}' at line {self.line}")
+        
+        while self.current_char is not None and (self.current_char.isalnum() or self.current_char == '_'):
+            result += self.current_char
+            self.advance()
+
+        if result in KEYWORDS:
+            return Token(result.upper(), result, self.line)
+
+        return Token("ID", result, self.line)
 
     def _id(self):
         result = ''
@@ -83,7 +96,7 @@ class Lexer:
             self.advance()
 
         if result in KEYWORDS:
-            return Token(result.upper(), result, self.line)  # e.g., IF, ELSE
+            return Token(result.upper(), result, self.line)  
         else:
             return Token("ID", result, self.line)
 
@@ -168,10 +181,76 @@ class Lexer:
             # unknown character
             raise Exception(f"Illegal character '{self.current_char}' at line {self.line}")
         return Token("EOF", None, self.line)
+    
+    def match_operator(self):
+        ch = self.current_char
+        nxt = self.peek()
 
-            
+        if ch == '=' and nxt == '=':
+            self.advance()
+            self.advance()
+            return Token("EQ", "==", self.line)
+        if ch == '!' and nxt == '=':
+            self.advance(); self.advance()
+            return Token("NEQ", "!=", self.line)
+        if ch == '>' and nxt == '=':
+            self.advance(); self.advance()
+            return Token("GE", ">=", self.line)
+        if ch == '<' and nxt == '=':
+            self.advance(); self.advance()
+            return Token("LE", "<=", self.line)
+        if ch == '+' and nxt == '+':
+            self.advance(); self.advance()
+            return Token("INC", "++", self.line)
+        if ch == '-' and nxt == '-':
+            self.advance(); self.advance()
+            return Token("DEC", "--", self.line)
 
-            
+        # Compound assignment: += -= *= /=
+        if ch == '+' and nxt == '=':
+            self.advance(); self.advance()
+            return Token("PLUS_ASSIGN", "+=", self.line)
+        if ch == '-' and nxt == '=':
+            self.advance(); self.advance()
+            return Token("MINUS_ASSIGN", "-=", self.line)
+        if ch == '*' and nxt == '=':
+            self.advance(); self.advance()
+            return Token("MUL_ASSIGN", "*=", self.line)
+        if ch == '/' and nxt == '=':
+            self.advance(); self.advance()
+            return Token("DIV_ASSIGN", "/=", self.line)
+
+        # Single-character operators
+        if ch == '+':
+            self.advance()
+            return Token("PLUS", "+", self.line)
+        if ch == '-':
+            self.advance()
+            return Token("MINUS", "-", self.line)
+        if ch == '*':
+            self.advance()
+            return Token("MUL", "*", self.line)
+        if ch == '/':
+            self.advance()
+            return Token("DIV", "/", self.line)
+        if ch == '=':
+            self.advance()
+            return Token("ASSIGN", "=", self.line)
+        if ch == '>':
+            self.advance()
+            return Token("GT", ">", self.line)
+        if ch == '<':
+            self.advance()
+            return Token("LT", "<", self.line)
+        if ch == '&':
+            self.advance()
+            return Token("AND", "&", self.line)
+        if ch == '|':
+            self.advance()
+            return Token("OR", "|", self.line)
+
+        return None
+                
                 
 
             
