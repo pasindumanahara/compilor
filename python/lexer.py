@@ -53,7 +53,11 @@ MULTI_CHAR_TOKENS = {
     '==': "EQ",
     '!=': "NEQ",
     '<=': "LE",
-    '>=': "GE"
+    '>=': "GE",
+    '+=': "PLUS_ASSIGN",
+    '-=': "MINUS_ASSIGN",
+    '*=': "MUL_ASSIGN",
+    '/=': "DIV_ASSIGN"
 }
 
 # example lexer class helper
