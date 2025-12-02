@@ -131,55 +131,63 @@ class Lexer:
     
     def get_next_token(self):
         while self.current_char is not None:   
-            # white spaces         
+            
+            # 1. Skip Whitespace
             if self.current_char.isspace():
                 self.skip_whitspaces()
                 continue
             
-            # handle comments
+            # 2. Handle Comments and Division
             if self.current_char == '/':
-                next_char = self.peek()
-                if next_char == '/':
+                peek = self.peek()
+                if peek == '/':
                     self.skip_line_comments()
                     continue
-                if next_char == '*':
+                elif peek == '*':
                     self.skip_block_comments()
-                    continue 
-                self.advance()
-                return Token("DIV",'/',self.line)
-            
-            # identifers and key words
+                    continue
+                
+            # 3. Identifiers and Keywords
             if self.current_char.isalpha() or self.current_char == '_':
-                return self.identifier() # TODO
+                return self.identifier()
             
+            # 4. Numbers
             if self.current_char.isdigit():
                 return self.number()
-            
-            # operators
-            if self.current_char == '+':
-                self.advance()
-                return Token("PLUS", '+', self.line)
-            if self.current_char == '-':
-                self.advance()
-                return Token("MINUS", '-', self.line)
-            if self.current_char == '*':
-                self.advance()
-                return Token("MUL", '*', self.line)
-            if self.current_char == '=':
-                self.advance()
-                return Token("ASSIGN", '=', self.line)
-            if self.current_char == ';':
-                self.advance()
-                return Token("SEMI", ';', self.line)
+
+            # 5. String Literals (NEW)
+            if self.current_char == '"':
+                return self.string_literal()
+
+            # 6. Operators (Multi-char and Single-char)
+            # We call your match_operator function here!
+            token = self.match_operator()
+            if token:
+                return token
+
+            # 7. Structural Symbols (Braces, Commas, Semicolons)
+            # These were missing in your logic but exist in your dicts
+            if self.current_char == '{':
+                self.advance(); return Token("LBRACE", '{', self.line)
+            if self.current_char == '}':
+                self.advance(); return Token("RBRACE", '}', self.line)
             if self.current_char == '(':
-                self.advance()
-                return Token("LPAREN", '(', self.line)
+                self.advance(); return Token("LPAREN", '(', self.line)
             if self.current_char == ')':
+                self.advance(); return Token("RPAREN", ')', self.line)
+            if self.current_char == ';':
+                self.advance(); return Token("SEMICOLON", ';', self.line)
+            if self.current_char == ',':
+                self.advance(); return Token("COMMA", ',', self.line)
+
+            # 8. Preprocessor 
+            if self.current_char == '#':
                 self.advance()
-                return Token("RPAREN", ')', self.line)
-            
-            # unknown character
+                return Token("HASH", "#", self.line)
+
+            # Error
             raise Exception(f"Illegal character '{self.current_char}' at line {self.line}")
+        
         return Token("EOF", None, self.line)
     
     def match_operator(self):
@@ -299,3 +307,21 @@ def get_next_token(self):
     return Token("EOF", None, self.line)
 
 '''
+
+# testing 
+# Test the Lexer
+if __name__ == "__main__":
+    code = """
+    int main() {
+        int a = 10;
+        if (a >= 10) {
+            return "Success"; /* Block Comment */
+        }
+        return 0; // Line Comment
+    }
+    """
+    lexer = Lexer(code)
+    token = lexer.get_next_token()
+    while token.type != "EOF":
+        print(token)
+        token = lexer.get_next_token()
