@@ -1,3 +1,6 @@
+# for testing arg 
+import sys
+
 class Token:
     def __init__(self,type,value,line):
         self.type = type
@@ -5,7 +8,7 @@ class Token:
         self.line = line
     
     def __repr__(self):
-        return f"Token({self.type},{self.value},{self.value})"
+        return f"Token({self.type},{self.value},{self.line})"
         
 KEYWORDS = {
     "int", "return", "if", "else", "while", "for"
@@ -129,6 +132,28 @@ class Lexer:
                 self.advance()
         raise Exception(f"Unterminated block comment at line {self.line}")
     
+    def string_literal(self):
+        result = ''
+        self.advance() 
+        
+        while self.current_char is not None and self.current_char != '"':
+            if self.current_char == '\\':
+                self.advance()
+                if self.current_char == 'n': result += '\n'
+                elif self.current_char == 't': result += '\t'
+                elif self.current_char == '"': result += '"'
+                elif self.current_char == '\\': result += '\\'
+                else: result += self.current_char
+            else:
+                result += self.current_char
+            self.advance()
+
+        if self.current_char != '"':
+            raise Exception(f"Unterminated string literal at line {self.line}")
+            
+        self.advance() 
+        return Token("STRING_LITERAL", result, self.line)
+    
     def get_next_token(self):
         while self.current_char is not None:   
             
@@ -155,18 +180,16 @@ class Lexer:
             if self.current_char.isdigit():
                 return self.number()
 
-            # 5. String Literals (NEW)
+            # 5. String Literals 
             if self.current_char == '"':
                 return self.string_literal()
 
-            # 6. Operators (Multi-char and Single-char)
-            # We call your match_operator function here!
+            # 6. Operators 
             token = self.match_operator()
             if token:
                 return token
 
-            # 7. Structural Symbols (Braces, Commas, Semicolons)
-            # These were missing in your logic but exist in your dicts
+            # 7. Structural Symbols 
             if self.current_char == '{':
                 self.advance(); return Token("LBRACE", '{', self.line)
             if self.current_char == '}':
@@ -214,7 +237,7 @@ class Lexer:
             self.advance(); self.advance()
             return Token("DEC", "--", self.line)
 
-        # Compound assignment: += -= *= /=
+        # Compound assignments
         if ch == '+' and nxt == '=':
             self.advance(); self.advance()
             return Token("PLUS_ASSIGN", "+=", self.line)
@@ -320,6 +343,14 @@ if __name__ == "__main__":
         return 0; // Line Comment
     }
     """
+    # change given code to argument for demo
+    if len(sys.argv) < 2:
+        sys.exit(1)
+    source_file = sys.argv[1]
+
+    with open(source_file, "r") as f:
+        content = f.read()
+    
     lexer = Lexer(code)
     token = lexer.get_next_token()
     while token.type != "EOF":
