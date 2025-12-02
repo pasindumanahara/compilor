@@ -1,4 +1,1 @@
-int main(){
-    printf("Hello world");
-    return 3;
-}
+int main(){printf("Hello world!");return 1;}

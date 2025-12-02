@@ -1,6 +1,7 @@
 # for testing arg 
 #import sys
-
+# CAN handle upto if else while for operators and literals
+# TODO: turenery operator implement
 class Token:
     def __init__(self,type,value,line):
         self.type = type
